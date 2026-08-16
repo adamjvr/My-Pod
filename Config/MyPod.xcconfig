@@ -4,6 +4,17 @@
 
 BREW_PREFIX = /opt/homebrew
 
+// Last.fm is configured once by the app maintainer, not by each user.
+// The defaults stay blank in source control. Scripts/build-with-lastfm.sh
+// injects the real values through a chmod-600 temporary xcconfig outside the repo.
+// No credential-bearing xcconfig file is written into the repository.
+LASTFM_API_KEY =
+LASTFM_SHARED_SECRET =
+
+// Xcode still generates the final Info.plist, but merges the build-time
+// Last.fm application values from this small source plist.
+INFOPLIST_FILE = Config/MyPodInfo.plist
+
 // Sandbox is disabled: the app needs free access to /Volumes/<iPod> and
 // arbitrary library folders chosen by the user. Re-enable later with
 // security-scoped bookmarks if shipping outside personal use.

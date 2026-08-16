@@ -354,6 +354,9 @@ static IPodTrackInfo *track_to_info(Itdb_Track *track)
     info->year = track->year;
     info->rating = track->rating;
     info->playcount = track->playcount;
+    info->recent_playcount = track->recent_playcount;
+    info->time_played = (int64_t)track->time_played;
+    info->dbid = track->dbid;
     info->ipod_path = glib_strdup(track->ipod_path);
     info->filetype = glib_strdup(track->filetype);
 

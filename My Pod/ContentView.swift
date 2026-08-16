@@ -4,6 +4,8 @@ struct ContentView: View {
     @State private var controller = IPodController()
     @State private var libraryStore = MusicLibraryStore()
     @State private var playlistStore = PlaylistStore()
+    @State private var manualStore = ManualTransferStore()
+    @State private var scrobbleStore = ScrobbleStore()
     @State private var syncEngine = SyncEngine()
     @State private var showSyncSheet = false
 
@@ -19,7 +21,9 @@ struct ContentView: View {
             MainTabView(
                 controller: controller,
                 libraryStore: libraryStore,
-                playlistStore: playlistStore
+                playlistStore: playlistStore,
+                manualStore: manualStore,
+                scrobbleStore: scrobbleStore
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             StorageBarView(
@@ -37,6 +41,13 @@ struct ContentView: View {
         .onChange(of: controller.snapshot, initial: true) { _, snapshot in
             libraryStore.applyDeviceSnapshot(snapshot)
             playlistStore.applyDeviceSnapshot(snapshot)
+            Task { await manualStore.refresh(device: controller.device) }
+            Task {
+                await scrobbleStore.harvest(
+                    deviceInfo: controller.deviceInfo,
+                    device: controller.device
+                )
+            }
         }
         // Checking a playlist selects its tracks. Same one-way push as the
         // device snapshot above: the playlist store resolves its entries to

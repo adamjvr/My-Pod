@@ -93,6 +93,7 @@ nonisolated struct Logger: Sendable {
             "sync":     OSLog(subsystem: subsystem, category: "sync"),
             "ipod":     OSLog(subsystem: subsystem, category: "ipod"),
             "artwork":  OSLog(subsystem: subsystem, category: "artwork"),
+            "scrobble": OSLog(subsystem: subsystem, category: "scrobble"),
         ]
     }()
 
@@ -143,4 +144,5 @@ nonisolated enum Log {
     static let sync     = Logger(category: "sync")
     static let ipod     = Logger(category: "ipod")
     static let artwork  = Logger(category: "artwork")
+    static let scrobble = Logger(category: "scrobble")
 }

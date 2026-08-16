@@ -4,6 +4,8 @@ enum MainTab: String, CaseIterable, Identifiable {
     case general = "General"
     case music = "Music"
     case playlists = "Playlists"
+    case manual = "Manual"
+    case scrobbling = "Scrobbling"
 
     var id: String { rawValue }
 
@@ -12,6 +14,8 @@ enum MainTab: String, CaseIterable, Identifiable {
         case .general: "info.circle"
         case .music: "music.note"
         case .playlists: "music.note.list"
+        case .manual: "hand.draw"
+        case .scrobbling: "dot.radiowaves.left.and.right"
         }
     }
 }
@@ -20,6 +24,8 @@ struct MainTabView: View {
     let controller: IPodController
     @Bindable var libraryStore: MusicLibraryStore
     @Bindable var playlistStore: PlaylistStore
+    @Bindable var manualStore: ManualTransferStore
+    @Bindable var scrobbleStore: ScrobbleStore
     @State private var selection: MainTab = .general
 
     var body: some View {
@@ -42,8 +48,18 @@ struct MainTabView: View {
                     MusicTabView(store: libraryStore)
                 case .playlists:
                     PlaylistsView(playlistStore: playlistStore, libraryStore: libraryStore)
+                case .manual:
+                    ManualTabView(controller: controller, store: manualStore)
+                case .scrobbling:
+                    ScrobblingTabView(store: scrobbleStore)
                 }
             }
+            .frame(
+                maxWidth: .infinity,
+                maxHeight: .infinity,
+                alignment: .topLeading
+            )
+            .layoutPriority(1)
         }
         .onChange(of: selection) { _, new in
             Log.ui.debug("tab changed: \(new.rawValue)")

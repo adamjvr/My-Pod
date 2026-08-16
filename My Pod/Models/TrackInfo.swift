@@ -14,6 +14,10 @@ nonisolated struct TrackInfo: Sendable, Identifiable, Equatable {
     var sizeBytes: UInt32
     var bitrate: Int
     var year: Int
+    var playCount: Int
+    var recentPlayCount: Int
+    var lastPlayed: Date?
+    var dbid: UInt64
 
     init(_ raw: UnsafePointer<IPodTrackInfo>) {
         self.id = raw.pointee.id
@@ -27,5 +31,11 @@ nonisolated struct TrackInfo: Sendable, Identifiable, Equatable {
         self.sizeBytes = raw.pointee.size_bytes
         self.bitrate = Int(raw.pointee.bitrate)
         self.year = Int(raw.pointee.year)
+        self.playCount = Int(raw.pointee.playcount)
+        self.recentPlayCount = Int(raw.pointee.recent_playcount)
+        self.lastPlayed = raw.pointee.time_played > 0
+            ? Date(timeIntervalSince1970: TimeInterval(raw.pointee.time_played))
+            : nil
+        self.dbid = raw.pointee.dbid
     }
 }

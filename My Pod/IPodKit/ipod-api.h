@@ -55,7 +55,10 @@ typedef struct {
     int samplerate;         /* Sample rate in Hz */
     int year;               /* Release year */
     int rating;             /* Rating 0-100 (stars * 20) */
-    int playcount;          /* Number of times played */
+    int playcount;          /* Lifetime number of times played */
+    int recent_playcount;   /* Plays since the iPod's last database sync */
+    int64_t time_played;    /* Unix time of the most recent play, or 0 */
+    uint64_t dbid;          /* Stable database ID for this track */
     char *ipod_path;        /* Path on iPod (colon-separated) */
     char *filetype;         /* File type description */
 } IPodTrackInfo;

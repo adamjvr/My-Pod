@@ -17,7 +17,7 @@ struct LogsView: View {
 
     private static let categories = [
         "ui", "device", "library", "playlist",
-        "convert", "sync", "ipod", "artwork"
+        "convert", "sync", "ipod", "artwork", "scrobble"
     ]
 
     /// Hoisted formatter — re-allocating one per row was a real cost when
